@@ -2,9 +2,11 @@ use bevy::prelude::*;
 
 mod constants;
 mod snake;
+mod food;
 
 use constants::*;
 use snake::SnakePlugin;
+use food::FoodPlugin;
 
 fn main() {
     App::new()
@@ -24,6 +26,7 @@ fn main() {
         )
         .insert_resource(ClearColor(BG_COLOR))
         .add_plugins(SnakePlugin)
+        .add_plugins(FoodPlugin)
         .add_systems(Startup, setup)
         .run();
 }
