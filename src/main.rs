@@ -1,12 +1,15 @@
 use bevy::prelude::*;
 
 mod constants;
-mod snake;
+mod controls;
 mod food;
+mod snake;
 
 use constants::*;
-use snake::SnakePlugin;
 use food::FoodPlugin;
+use snake::SnakePlugin;
+
+use crate::controls::ControlsPlugin;
 
 fn main() {
     App::new()
@@ -27,6 +30,7 @@ fn main() {
         .insert_resource(ClearColor(BG_COLOR))
         .add_plugins(SnakePlugin)
         .add_plugins(FoodPlugin)
+        .add_plugins(ControlsPlugin)
         .add_systems(Startup, setup)
         .run();
 }
