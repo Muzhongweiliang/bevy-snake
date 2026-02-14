@@ -20,8 +20,8 @@ struct GridConfig {
 #[derive(Event)]
 enum ControlEvent {
     ToggleGrid,
+    PauseGame,
     // 未来可以在这里添加更多事件，如:
-    // PauseGame,
     // RestartGame,
 }
 
@@ -34,14 +34,32 @@ fn handle_input(keyboard_input: Res<ButtonInput<KeyCode>>, mut commands: Command
         // 使用 trigger 立即触发事件
         commands.trigger(ControlEvent::ToggleGrid);
     }
+
+    // 检查 Esc 键 暂停/恢复
+    if keyboard_input.just_pressed(KeyCode::Escape) {
+        commands.trigger(ControlEvent::PauseGame);
+    }
 }
 
 // Observer 回调函数
-fn on_control_event(trigger: On<ControlEvent>, mut grid_config: ResMut<GridConfig>) {
+fn on_control_event(
+    trigger: On<ControlEvent>,
+    mut grid_config: ResMut<GridConfig>,
+    current_state: Res<State<GameState>>,
+    mut next_state: ResMut<NextState<GameState>>,
+) {
     match trigger.event() {
         ControlEvent::ToggleGrid => {
             grid_config.show_grid = !grid_config.show_grid;
             info!("Grid toggled: {}", grid_config.show_grid);
+        }
+        ControlEvent::PauseGame => {
+            let new_state = match current_state.get() {
+                GameState::Playing => GameState::Paused,
+                GameState::Paused => GameState::Playing,
+            };
+            next_state.set(new_state);
+            info!("Game Paused: {:?}", new_state == GameState::Paused);
         }
     }
 }

@@ -28,6 +28,7 @@ fn main() {
             }),
         )
         .insert_resource(ClearColor(BG_COLOR))
+        .init_state::<GameState>()
         .add_plugins(SnakePlugin)
         .add_plugins(FoodPlugin)
         .add_plugins(ControlsPlugin)

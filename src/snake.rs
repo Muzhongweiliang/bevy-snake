@@ -17,7 +17,8 @@ impl Plugin for SnakePlugin {
                     input_handling,
                     snake_movement,
                     snake_eating.after(snake_movement),
-                ),
+                )
+                    .run_if(in_state(GameState::Playing)),
             );
     }
 }

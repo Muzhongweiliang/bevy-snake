@@ -1,4 +1,11 @@
-use bevy::prelude::Color;
+use bevy::prelude::*;
+
+#[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
+pub enum GameState {
+    #[default]
+    Playing,
+    Paused,
+}
 
 //=============== 配置 ==================
 pub const GRID_SIZE: f32 = 20.0; // 每个格子大小
